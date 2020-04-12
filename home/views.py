@@ -5,11 +5,13 @@ from django.shortcuts import render
 
 # Create your views here.
 from home.models import Setting, ContactFormMessage, ContactFormu
+from place.models import Place
 
 
 def index(request):
     setting = Setting.objects.first()
-    context = {'setting': setting, 'page':'home'}
+    sliderdata = Place.objects.all()[:5]
+    context = {'setting': setting, 'page': 'home', 'sliderdata': sliderdata}
     return render(request, 'index.html', context)
 
 def hakkimizda(request):
