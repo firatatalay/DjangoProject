@@ -11,11 +11,33 @@
 
     <section id="ContactContent">
       <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12">
+        <div class="col-lg-5 col-md-5 col-sm-5">
           <div class="contact_area">
-            {{ setting.contact|safe }}
+            <div class="contact_bottom">
+              <div class="contact_us wow fadeInRightBig">
+                <h2>ILETISIM FORMU</h2>
+
+                  {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                  {% endif %}
+
+                  <form action="" method="POST">
+                      {% csrf_token %}
+                      {{ form.as_p }}
+                      <input type="submit" value="Gönder" >
+                  </form>
+
+              </div>
+            </div>
           </div>
         </div>
+          <div class="col-lg-7 col-md-7 col-sm-7">
+              {{ setting.contact|safe }}
+          </div>
       </div>
     </section>
 
