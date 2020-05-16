@@ -28,6 +28,7 @@ urlpatterns = [
     path('place/', include('place.urls')),
     path('admin/', admin.site.urls),
     path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('category/<int:id>/<slug:slug>/', views.category_places, name='category_places'),
 ]
 
 if settings.DEBUG:

@@ -21,7 +21,9 @@ def index(request):
 
 def hakkimizda(request):
     setting = Setting.objects.first()
-    context = {'setting': setting, 'page':'hakkimizda'}
+    category = Category.objects.all()
+    context = {'setting': setting, 'page':'hakkimizda','category': category}
+
     return render(request, 'hakkimizda.html', context)
 
 def iletisim(request):
@@ -41,5 +43,22 @@ def iletisim(request):
 
     setting = Setting.objects.first()
     form = ContactFormu()
-    context = {'setting': setting, 'form':form}
+    category = Category.objects.all()
+    context = {'setting': setting, 'form':form, 'category': category}
     return render(request, 'iletisim.html', context)
+
+
+def category_places(request, id, slug):
+    category = Category.objects.all()
+    categorydata = Category.objects.get(pk=id)
+    places = Place.objects.filter(category_id=id)
+    context = {'places': places,
+               'category': category,
+               'categorydata': categorydata
+               }
+    return render(request, 'places.html', context)
+
+
+
+
+
