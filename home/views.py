@@ -12,10 +12,20 @@ def index(request):
     setting = Setting.objects.first()
     sliderdata = Place.objects.all()[:5]
     category = Category.objects.all()
+    lastplaces = Place.objects.all().order_by('-id')[:5]
+    randomplaces = Place.objects.all().order_by('?')[:4]
+    mainrandomplacessmall = Place.objects.all().order_by('?')[:30]
+    mainrandomplacesbig = Place.objects.all().order_by('?')[:10]
+
+
     context = {'setting': setting,
                'page': 'home',
                'sliderdata': sliderdata,
                'category': category,
+               'lastplaces': lastplaces,
+               'randomplaces': randomplaces,
+               'mainrandomplacessmall': mainrandomplacessmall,
+               'mainrandomplacesbig': mainrandomplacesbig,
                }
     return render(request, 'index.html', context)
 

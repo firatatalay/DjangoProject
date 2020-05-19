@@ -1,36 +1,29 @@
 {% load static %}
 <section id="mainContent">
     <div class="content_top">
-      <div class="row">
-        <div class="col-lg-6 col-md-6 col-sm6">
-          <div class="latest_slider">
-            <div class="slick_slider">
-                {% for rs in sliderdata %}
-              <div class="single_iteam"><img src="{{ rs.image.url }}" alt="">
-                <h2><a class="slider_tittle" href="/place/{{ rs.id }}/{{ rs.slug }}">{{ rs.title }}<h5>{{ rs.description }}</a></h6> </a></h2>
-
-              </div>
-                {% endfor %}
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm6">
+                <div class="latest_slider">
+                    <div class="slick_slider">
+                        {% for rs in sliderdata %}
+                            <div class="single_iteam"><img src="{{ rs.image.url }}" alt="" style=" height: 425px" >
+                                <h2><a class="slider_tittle" href="/place/{{ rs.id }}/{{ rs.slug }}">{{ rs.title }}</a></h2>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
-          </div>
+
+            <div class="col-lg-6 col-md-6 col-sm6">
+                <div class="content_top_right">
+                    {% for rs in randomplaces  %}
+                        <ul class="featured_nav wow fadeInDown">
+                            <li><img src="{{ rs.image.url }}" alt="">
+                                <div class="title_caption"><a href="/place/{{ rs.id }}/{{ rs.slug }}">{{ rs.title }}</a></div>
+                            </li>
+                        </ul>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm6">
-          <div class="content_top_right">
-            <ul class="featured_nav wow fadeInDown">
-              <li><img src="images/300x215x1.jpg" alt="">
-                <div class="title_caption"><a href="pages/single.html">Sed luctus semper odio aliquam rhoncus</a></div>
-              </li>
-              <li><img src="images/300x215x2.jpg" alt="">
-                <div class="title_caption"><a href="pages/single.html">Sed luctus semper odio aliquam rhoncus</a></div>
-              </li>
-              <li><img src="images/300x215x3.jpg" alt="">
-                <div class="title_caption"><a href="pages/single.html">Sed luctus semper odio aliquam rhoncus</a></div>
-              </li>
-              <li><img src="images/300x215x4.jpg" alt="">
-                <div class="title_caption"><a href="pages/single.html">Sed luctus semper odio aliquam rhoncus</a></div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
     </div>

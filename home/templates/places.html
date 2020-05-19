@@ -19,24 +19,22 @@
                         <div class="col-lg-8 col-md-8">
                             <div class="content_bottom_left">
                                 <div class="single_category wow fadeInDown">
-              <h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <a class="title_text" >{{ categorydata.title }}</a> </h2>
+                                    <h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <a class="title_text" >{{ categorydata.title }}</a> </h2>
 
                                     {% for rs in places %}
 
-{#                                    <h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <a class="title_text" href="#">{{rs.category_id}}</a> </h2>#}
+                                        {#                                    <h2> <span class="bold_line"><span></span></span> <span class="solid_line"></span> <a class="title_text" href="#">{{rs.category_id}}</a> </h2>#}
+                                        <div class="business_category_left wow fadeInDown">
+                                            <ul class="fashion_catgnav">
+                                                <li>
+                                                    <div class="catgimg2_container"> <a href="/place/{{ rs.id }}/{{ rs.slug }}"><img alt="" style=" width: 335px" src="{{ rs.image.url }}"></a> </div>
+                                                    <h2 class="catg_titile"><a href="/place/{{ rs.id }}/{{ rs.slug }}">{{rs.title}}</a></h2>
+                                                    <div class="comments_box"> <span class="meta_date">{{rs.create_at}}</span> <span class="meta_comment"><a href="#">No Comments</a></span> <span class="meta_more"><a  href="/place/{{ rs.id }}/{{ rs.slug }}">Read More...</a></span> </div>
+                                                    <p> {{rs.description}} </p>
 
-                                    <div class="business_category_left wow fadeInDown">
-                                        <ul class="fashion_catgnav">
-                                            <li>
-                                                <div class="catgimg2_container"> <a href="/place/{{ rs.id }}/{{ rs.slug }}"><img alt="" src="{{ rs.image.url }}"></a> </div>
-                                                <h2 class="catg_titile"><a href="/place/{{ rs.id }}/{{ rs.slug }}">{{rs.title}}</a></h2>
-                                                <div class="comments_box"> <span class="meta_date">{{rs.create_at}}</span> <span class="meta_comment"><a href="#">No Comments</a></span> <span class="meta_more"><a  href="/place/{{ rs.id }}/{{ rs.slug }}">Read More...</a></span> </div>
-                                                <p> {{rs.description}} </p>
-
-                                            </li>
-                                        </ul>
-
-                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
 
                                     {% endfor %}
 
