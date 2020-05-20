@@ -1,0 +1,100 @@
+{% extends "homebase.html" %}
+
+{% block title %} {{ place.title }} {% endblock %}
+{% block keywords %} {{ place.keywords }} {% endblock %}
+{% block description %} {{ place.description }} {% endblock %}
+
+{% block head %} <link rel="shortcut icon" type="image/x-con" href="{{ setting.icon.url }}"/> {% endblock %}
+
+{% block navbar %} {% include 'navbar.html' %}{% endblock %}
+{% block content %}
+
+    <section id="mainContent">
+        <div class="content_bottom">
+            <div class="col-lg-8 col-md-8">
+                <div class="content_bottom_left">
+                    <div class="single_page_area">
+                        <ol class="breadcrumb">
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/category/{{ place.category_id }}/{{ place.category.slug }}">{{ place.category }}</a></li>
+                            <li class="active">{{ place.title }}</li>
+                        </ol>
+                        <h2 class="post_titile">{{ place.title }}</h2>
+                        <div class="single_page_content">
+                            <div class="post_commentbox"> <a href="#"><i class="fa fa-user"></i>YAZAR</a> <span><i class="fa fa-calendar"></i>{{ place.create_at }}</span> <a href="#"><i class="fa fa-tags"></i>{{ place.category }}</a> </div>
+                            <img class="img-center" src="{{ place.image.url }}" alt="">
+
+                            {{ place.detail|safe }}
+<br>
+<br>
+                            <h4>İlgili Görseller:</h4>
+                            {% for rs in images %}
+                                <img style="width:350px;height:250px" src="{{ rs.image.url }}" alt="">
+                            {% endfor %}
+
+
+                            <br>
+                            <br>
+                            <br>
+                            {#              <button class="btn">Default</button>#}
+                            {#              <button class="btn btn-primary">Primary</button>#}
+                            {#              <button class="btn btn-success">Success</button>#}
+                            {#              <button class="btn btn-info">Info</button>#}
+                            {#              <button class="btn btn-warning">Warning</button>#}
+                            {#              <button class="btn btn-danger">Danger</button>#}
+                        </div>
+                    </div>
+                </div>
+                <div class="share_post"> <a class="facebook" href="#"><i class="fa fa-facebook"></i>Facebook</a> <a class="twitter" href="#"><i class="fa fa-twitter"></i>Twitter</a> <a class="googleplus" href="#"><i class="fa fa-google-plus"></i>Google+</a> <a class="linkedin" href="#"><i class="fa fa-linkedin"></i>LinkedIn</a> <a class="stumbleupon" href="#"><i class="fa fa-stumbleupon"></i>StumbleUpon</a> <a class="pinterest" href="#"><i class="fa fa-pinterest"></i>Pinterest</a> </div>
+                <div class="similar_post">
+                    <h2>Ilginizi Çekebilecek Gönderiler!  <i class="fa fa-thumbs-o-up"></i></h2>
+                    <ul class="small_catg similar_nav wow fadeInDown animated">
+
+                        {% for rs in randomplaces  %}
+
+                            <li>
+                                <div class="media wow fadeInDown animated" style="visibility: visible; animation-name: fadeInDown;"> <a class="media-left related-img" href="/place/{{ rs.id }}/{{ rs.slug }}"><img src="{{ rs.image.url }}" alt=""></a>
+                                    <div class="media-body">
+                                        <h4 class="media-heading"><a href="/place/{{ rs.id }}/{{ rs.slug }}">{{ rs.title }}</a></h4>
+                                        <p>{{ rs.description }} </p>
+                                    </div>
+                                </div>
+                            </li>
+
+                        {% endfor %}
+
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4">
+                <div class="content_bottom_right">
+                    <div class="single_bottom_rightbar">
+                        <h2>Recent Post</h2>
+                        <ul class="small_catg popular_catg wow fadeInDown">
+
+                            {% for rs in randomplaces  %}
+
+
+                                <li>
+                                    <div class="media wow fadeInDown"> <a href="/place/{{ rs.id }}/{{ rs.slug }}" class="media-left"><img alt="" style=" height: 150px; width: 300px" src="{{rs.image.url}}"> </a>
+<br>
+                                            <h4 class="media-heading"><a href="/place/{{ rs.id }}/{{ rs.slug }}">{{ rs.title }}</a></h4><br>
+                                            <p>{{rs.description}}</p>
+
+                                    </div>
+                                </li>
+
+                            {% endfor %}
+
+
+                        </ul>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
