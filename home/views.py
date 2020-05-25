@@ -6,7 +6,7 @@ from django.shortcuts import render
 # Create your views here.
 from home.models import Setting, ContactFormMessage, ContactFormu
 from place.models import Place, Category, Images, Comment
-
+from home.forms import SearchForm
 
 
 def index(request):
@@ -87,4 +87,16 @@ def place_detail(request, id, slug):
 
 
 
+def place_search(request):
+    if request.method == 'POST':
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            category = Category.objects.all()
+            query = form.cleaned_data['query']
+            places = Place.objects.filter(title__icontains=query)
+            context = { 'places': places,
+                        'category': category,
+                        }
+            return render(request,'places_search.html',context)
 
+    return HttpResponseRedirect('/')
