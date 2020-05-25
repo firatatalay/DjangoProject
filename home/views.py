@@ -5,7 +5,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from home.models import Setting, ContactFormMessage, ContactFormu
-from place.models import Place, Category, Images
+from place.models import Place, Category, Images, Comment
 
 
 
@@ -75,10 +75,12 @@ def place_detail(request, id, slug):
     place = Place.objects.get(pk=id)
     randomplaces = Place.objects.all().order_by('?')[:3]
     images = Images.objects.filter(place_id=id)
+    comments = Comment.objects.filter(place_id=id, status='True').order_by('create_at')[:]
     context = {'place': place,
                'category': category,
                'randomplaces': randomplaces,
                'images': images,
+               'comments': comments,
                }
     return render(request, 'placedetail.html', context)
 
