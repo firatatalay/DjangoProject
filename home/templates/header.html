@@ -1,31 +1,50 @@
 <div id="preloader">
-  <div id="status">&nbsp;</div>
+    <div id="status">&nbsp;</div>
 </div>
 <a class="scrollToTop" href="#"><i class="fa fa-angle-up"></i></a>
 <div class="container">
-  <header id="header">
-    <div class="row">
-      <div class="col-lg-12 col-md-12">
-        <div class="header_top">
-          <div class="header_top_left">
-            <ul class="top_nav">
-              <li><a href="/">Home</a></li>
-              <li><a href="/hakkimizda">Hakkımızda</a></li>
-              <li><a href="/iletisim">ILETISIM</a></li>
-            </ul>
-          </div>
-          <div class="header_top_right">
-            <form action="/search/" method="post" class="search_form">
-                {% csrf_token %}
-              <input type="text" name="query" placeholder="Text to Search">
-              <input type="submit" value="">
-            </form>
-          </div>
+    <header id="header">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class="header_top">
+                    <div class="header_top_left">
+                        <ul class="top_nav">
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/hakkimizda">Hakkımızda</a></li>
+                            <li><a href="/iletisim">ILETISIM</a></li>
+                        </ul>
+                    </div>
+
+{#                    <script>#}
+{#                        $(function() {#}
+{#                            $("#query").autocomplete({#}
+{#                                source: "/search_auto/",#}
+{#                                select: function (event, ui) { //item selected#}
+{#                                    AutoCompleteSelectHandler(event, ui)#}
+{#                                },#}
+{#                                minLength: 2,#}
+{#                            });#}
+{#                        });#}
+{#                        function AutoCompleteSelectHandler(event, ui)#}
+{#                        {#}
+{#                            var selectedObj = ui.item;#}
+{#                        }#}
+{#                    </script>#}
+
+
+
+                    <div class="header_top_right">
+                        <form action="/search/" method="post" class="search_form">
+                            {% csrf_token %}
+                            <input type="text" id="query" name="query" placeholder="Ne Arıyorsunuz?">
+                            <input type="submit" value="">
+                        </form>
+                    </div>
+                </div>
+                <div class="header_bottom">
+                    <div class="header_bottom_left"><a class="logo" href="/">Gezi<strong>Aktivite</strong> <span>Yol Açık, Yola Çık!</span></a></div>
+                    <div class="header_bottom_right"><a href="#"><img src="images/addbanner_728x90_V1.jpg" alt=""></a></div>
+                </div>
+            </div>
         </div>
-        <div class="header_bottom">
-          <div class="header_bottom_left"><a class="logo" href="/">Gezi<strong>Aktivite</strong> <span>Yol Açık, Yola Çık!</span></a></div>
-          <div class="header_bottom_right"><a href="#"><img src="images/addbanner_728x90_V1.jpg" alt=""></a></div>
-        </div>
-      </div>
-    </div>
-  </header>
+    </header>

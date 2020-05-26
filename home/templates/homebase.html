@@ -21,9 +21,9 @@
 <script src="{% static 'assets/js/html5shiv.min.js' %}"></script>
 <script src="{% static 'assets/js/respond.min.js' %}"></script>
 
-    <!--[if lt IE 9]>    <![endif]-->
 
-    {% block head %}  {% endblock %}
+    {% block head %}
+    {% endblock %}
 
 </head>
 <body>
@@ -34,10 +34,6 @@
     {% block body %}  {% endblock %}
     {% include 'footer.html' %}
     {% block foot %}  {% endblock %}
-
-
-
-
 
 </body>
 </html>

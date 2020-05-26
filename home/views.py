@@ -1,3 +1,5 @@
+import json
+
 from django.http import HttpResponse
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
@@ -100,3 +102,33 @@ def place_search(request):
             return render(request,'places_search.html',context)
 
     return HttpResponseRedirect('/')
+
+
+
+# def place_search_auto(request):
+#     if request.is_ajax():
+#         q = request.GET.get('term', '')
+#         places = Place.objects.filter(title__icontains=q)
+#         results = []
+#         for rs in places:
+#             place_json = {}
+#             place_json = rs.title
+#             results.append(place_json)
+#         data = json.dumps(results)
+#     else:
+#         data = 'fail'
+#     mimetype = 'application/json'
+#     return HttpResponse(data, mimetype)
+
+def place_search_auto(request):
+    if request.is_ajax():
+        q = request.GET.get('term', '').capitalize()
+        places = Place.objects.filter(title__icontains=q)
+        results = []
+        for r in places:
+            results.append(r.title)
+        data = json.dumps(results)
+    else:
+        data = 'fail'
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)
