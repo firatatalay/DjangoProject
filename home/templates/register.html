@@ -1,6 +1,6 @@
 {% extends "homebase.html" %}
 
-{% block title %} Giriş | {{ setting.company }} {% endblock %}
+{% block title %} Kayıt | {{ setting.company }} {% endblock %}
 {% block keywords %} {{ setting.keywords }} {% endblock %}
 {% block description %} {{ setting.descriptions }} {% endblock %}
 
@@ -15,7 +15,7 @@
           <div class="contact_area">
             <div class="contact_bottom">
               <div class="contact_us wow fadeInRightBig">
-                <h2>Giris Formu</h2>
+                <h2>Kayıt Formu</h2>
 
                   {% if messages %}
                     {% for message in messages %}
@@ -24,18 +24,25 @@
                         </div>
                     {% endfor %}
                   {% endif %}
-                    <center>
-                  <form action="" method="POST">
+
+                  <form method="POST">
                       {% csrf_token %}
-                      <div class="form-group">
-                          <input class="input" type="text" name="username" placeholder="Kullanıcı Adı">
-                      </div>
-                      <div class="form-group">
-                          <input class="input" type="password" name="password" placeholder="Şifre">
-                      </div>
-                      <input type="submit" value="Giris Yap" >
+                      {% for field in form %}
+                          <p>
+                          {{ field.label_tag }}<br>{{ field }}<br>
+                          {% if field.help_text %}
+                            <small style="color: grey"> {{ field.help_text }} </small>
+                          {% endif %}
+                          {% for error in field.errors %}
+                              <p style="color: red"> {{ error }} </p>
+                          {% endfor %}
+                          </p>
+                      {% endfor %}
+                      <input type="submit" value="Kaydol" >
                   </form>
-                    </center>
+
+
+
               </div>
             </div>
           </div>

@@ -9,7 +9,7 @@ from django.shortcuts import render
 # Create your views here.
 from home.models import Setting, ContactFormMessage, ContactFormu
 from place.models import Place, Category, Images, Comment
-from home.forms import SearchForm
+from home.forms import SearchForm, RegisterForm
 
 
 def index(request):
@@ -136,8 +136,29 @@ def login_view(request):
             messages.warning(request, "Giriş Yapılamadı, bilgilerinizi kontrol ettikten sonra tekrar deneyin.")
             return HttpResponseRedirect('/login')
 
-
+    setting = Setting.objects.first()
     category = Category.objects.all()
     context = {'category': category,
+               'setting': setting,
                }
     return render(request, 'login.html', context)
+
+def register_view(request):
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = request.POST['username']
+            password = request.POST['password1']
+            user = authenticate(request, username=username, password=password)
+            login(request, user)
+            return HttpResponseRedirect('/')
+
+    form = RegisterForm()
+    setting = Setting.objects.first()
+    category = Category.objects.all()
+    context = {'category': category,
+                'setting': setting,
+               'form': form,
+               }
+    return render(request, 'register.html', context)
