@@ -1,0 +1,46 @@
+{% extends "homebase.html" %}
+
+{% block title %} İletisim - {{ setting.company }} {% endblock %}
+{% block keywords %} {{ setting.keywords }} {% endblock %}
+{% block description %} {{ setting.descriptions }} {% endblock %}
+
+{% block head %} <link rel="shortcut icon" type="image/x-con" href="{{ setting.icon.url }}"/> {% endblock %}
+
+{% block navbar %} {% include 'navbar.html' %}{% endblock %}
+{% block content %}
+
+    <section id="ContactContent">
+      <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6">
+          <div class="contact_area">
+            <div class="contact_bottom">
+              <div class="contact_us wow fadeInRightBig">
+                <h2>Giris Formu</h2>
+
+                  {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                  {% endif %}
+<center>
+                  <form action="" method="POST">
+                      {% csrf_token %}
+                      <div class="form-group">
+                          <input class="input" type="text" name="username" placeholder="Kullanıcı Adı">
+                      </div>
+                      <div class="form-group">
+                          <input class="input" type="password" name="password" placeholder="Şifre">
+                      </div>
+                      <input type="submit" value="Giris Yap" >
+                  </form>
+</center>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+{% endblock %}

@@ -1,5 +1,6 @@
 import json
 
+from django.contrib.auth import logout, authenticate, login
 from django.http import HttpResponse
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
@@ -104,22 +105,6 @@ def place_search(request):
     return HttpResponseRedirect('/')
 
 
-
-# def place_search_auto(request):
-#     if request.is_ajax():
-#         q = request.GET.get('term', '')
-#         places = Place.objects.filter(title__icontains=q)
-#         results = []
-#         for rs in places:
-#             place_json = {}
-#             place_json = rs.title
-#             results.append(place_json)
-#         data = json.dumps(results)
-#     else:
-#         data = 'fail'
-#     mimetype = 'application/json'
-#     return HttpResponse(data, mimetype)
-
 def place_search_auto(request):
     if request.is_ajax():
         q = request.GET.get('term', '').capitalize()
@@ -132,3 +117,27 @@ def place_search_auto(request):
         data = 'fail'
     mimetype = 'application/json'
     return HttpResponse(data, mimetype)
+
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect('/')
+
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return HttpResponseRedirect('/')
+        else:
+            messages.warning(request, "Giriş Yapılamadı, bilgilerinizi kontrol ettikten sonra tekrar deneyin.")
+            return HttpResponseRedirect('/login')
+
+
+    category = Category.objects.all()
+    context = {'category': category,
+               }
+    return render(request, 'login.html', context)

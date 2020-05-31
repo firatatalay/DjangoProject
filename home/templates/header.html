@@ -7,43 +7,79 @@
         <div class="row">
             <div class="col-lg-12 col-md-12">
                 <div class="header_top">
-                    <div class="header_top_left">
-                        <ul class="top_nav">
-                            <li><a href="/">Home</a></li>
-                            <li><a href="/hakkimizda">Hakkımızda</a></li>
-                            <li><a href="/iletisim">ILETISIM</a></li>
-                        </ul>
-                    </div>
-
-{#                    <script>#}
-{#                        $(function() {#}
-{#                            $("#query").autocomplete({#}
-{#                                source: "/search_auto/",#}
-{#                                select: function (event, ui) { //item selected#}
-{#                                    AutoCompleteSelectHandler(event, ui)#}
-{#                                },#}
-{#                                minLength: 2,#}
-{#                            });#}
-{#                        });#}
-{#                        function AutoCompleteSelectHandler(event, ui)#}
-{#                        {#}
-{#                            var selectedObj = ui.item;#}
-{#                        }#}
-{#                    </script>#}
-
-
-
                     <div class="header_top_right">
-                        <form action="/search/" method="post" class="search_form">
-                            {% csrf_token %}
-                            <input type="text" id="query" name="query" placeholder="Ne Arıyorsunuz?">
-                            <input type="submit" value="">
-                        </form>
+
+                        <style>
+                            .dropdown {
+                                position: relative;
+                                display: inline-block;
+                            }
+
+                            .dropdown-content {
+                                display: none;
+                                position: absolute;
+                                background-color: #f9f9f9;
+                                min-width: 160px;
+                                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                                padding: 12px 16px;
+                                z-index: 1;
+                            }
+                            .dropdown:hover .dropdown-content {
+                                display: block;
+                            }
+                        </style>
+                        <div class="dropdown">
+                            <ul class="top_nav">
+                            <li>
+                                {% if user.id is not None %}
+                                    <i class="fa fa-user"><a> {{ user.first_name }} {{ user.last_name }}</a></i>
+                                    <div class="dropdown-content">
+                                        <i class="fa fa-location-arrow"><a href="/"> Ekledigim Yerler </a></i>
+                                        <i class="fa fa-comments"><a href="/"> Yorumlarım </a></i>
+{#                                        <i class="fa fa-sign-out"><a href="/"> CIKIS </a></i>#}
+                                        <i class="fa fa-sign-out"><a href="/logout"> CIKIS </a></i>
+                                    </div>
+                                {% else %}
+                                    <i class="fa fa-plus"><a href="/join"> Kaydol </a></i>
+
+                                    <i class="fa fa-sign-in"><a href="/login"> Giris </a></i>
+
+
+
+
+                                {% endif %}
+                            </li>
+                            </ul>
+                        </div>
+{#                        <ul class="top_nav">#}
+{#                            <li>#}
+{#                                {% if user.id is not None %}#}
+{#                                    <i class="fa fa-user"><a href="/"> {{ user.first_name }} {{ user.last_name }}</a></i>#}
+{#                                {% else %}#}
+{#                                {% endif %}#}
+{#                            </li>#}
+{#                        </ul>#}
                     </div>
+
+
+
+
                 </div>
                 <div class="header_bottom">
                     <div class="header_bottom_left"><a class="logo" href="/">Gezi<strong>Aktivite</strong> <span>Yol Açık, Yola Çık!</span></a></div>
-                    <div class="header_bottom_right"><a href="#"><img src="images/addbanner_728x90_V1.jpg" alt=""></a></div>
+                    <div class="header_bottom_right">
+
+                        <div class="header_top_right">
+                            <form action="/search/" method="post" class="search_form">
+                                {% csrf_token %}
+                                <input type="text" id="query" name="query" placeholder="Ne Arıyorsunuz?">
+                                <input type="submit" value="">
+                            </form>
+                        </div>
+
+
+
+                    </div>
                 </div>
             </div>
         </div>
