@@ -84,7 +84,7 @@ class UserProfile(models.Model):
         return '[' + self.user.username + ']  ' + self.user.first_name + ' ' + self.user.last_name
 
     def image_tag(self):
-        return mark_safe('<img src="{}" height="50"/>'.format(self.image.url))
+        return mark_safe('<img src="{}" height="100"/>'.format(self.image.url))
     image_tag.short_description = 'Image'
 
 
