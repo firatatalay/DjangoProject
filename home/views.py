@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
-from home.models import Setting, ContactFormMessage, ContactFormu
+from home.models import Setting, ContactFormMessage, ContactFormu, UserProfile
 from place.models import Place, Category, Images, Comment
 from home.forms import SearchForm, RegisterForm
 
@@ -152,6 +152,12 @@ def register_view(request):
             password = request.POST['password1']
             user = authenticate(request, username=username, password=password)
             login(request, user)
+
+            # current_user = request.user_id
+            # data = UserProfile()
+            # data.user_id = current_user.id
+            # data.image = "images/users/user.png"
+            # data.save()
             return HttpResponseRedirect('/')
 
     form = RegisterForm()
