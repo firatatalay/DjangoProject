@@ -1,0 +1,85 @@
+{% extends "homebase.html" %}
+
+{% block title %} {{ profile.user.first_name }} PROFIL {% endblock %}
+{% block keywords %} {{ setting.keywords }} {% endblock %}
+{% block description %} {{ setting.descriptions }} {% endblock %}
+
+{% block head %} <link rel="shortcut icon" type="image/x-con" href="{{ setting.icon.url }}"/> {% endblock %}
+
+{% block navbar %} {% include 'navbar.html' %}{% endblock %}
+{% block content %}
+<div class="container">
+      <section id="mainContent">
+    <div class="content_top">
+
+    </div>
+
+    <div class="content_bottom">
+      <div class="col-lg-8 col-md-8">
+        <div class="content_bottom_left">
+<br>
+            <center>
+            <table cellpadding="20" style="width: 70%;">
+                <thead>
+                <tr>
+                    <th class="text-center"></th>
+                    <td class="text-center"><img src="{{ profile.image.url }}"></td>
+                </tr>
+                <tr>
+                    <th class="text-right">Kullanıcı Adı:</th>
+                    <td class="text-center">{{ profile.user.username }}</td>
+                </tr>
+                <tr>
+                    <th class="text-right">Ad:</th>
+                    <td class="text-center">{{ profile.user.first_name }}</td>
+                </tr>
+                <tr>
+                    <th class="text-right">Soyad:</th>
+                    <td class="text-center">{{ profile.user.last_name }}</td>
+                </tr>
+                <tr>
+                    <th class="text-right">Telefon:</th>
+                    <td class="text-center">{{ profile.phone }}</td>
+                </tr>
+                <tr>
+                    <th class="text-right">Email:</th>
+                    <td class="text-center">{{ profile.user.email }}</td>
+                </tr>
+                <tr>
+                    <th class="text-right">Ülke:</th>
+                    <td class="text-center">{{ profile.country }}</td>
+                </tr>
+                <tr>
+                    <th class="text-right">Şehir:</th>
+                    <td class="text-center">{{ profile.city }}</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                </tr>
+                </tbody>
+            </table>
+            </center>
+
+
+
+
+
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4">
+        <div class="content_bottom_right">
+          <div class="single_bottom_rightbar">
+          </div>
+          <div class="single_bottom_rightbar">
+          </div>
+
+          {% include 'userpanel.html' %}
+
+        </div>
+      </div>
+    </div>
+  </section>
+    </div>
+
+{% endblock %}

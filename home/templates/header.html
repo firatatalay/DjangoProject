@@ -32,7 +32,7 @@
                             <ul class="top_nav">
                             <li>
                                 {% if user.id is not None %}
-                                    <i class="fa fa-user"><a> {{ user.first_name }} {{ user.last_name }}</a></i>
+                                    <i class="fa fa-user"><a href="/user"> <img src="{{ request.user.profile.image.url }}"> {{ user.first_name }} {{ user.last_name }}</a></i>
                                     <div class="dropdown-content">
                                         <i class="fa fa-location-arrow"><a href="/"> Ekledigim Yerler </a></i>
                                         <i class="fa fa-comments"><a href="/"> Yorumlarım </a></i>
@@ -43,10 +43,6 @@
                                     <i class="fa fa-plus"><a href="/register"> Kaydol </a></i>
 
                                     <i class="fa fa-sign-in"><a href="/login"> Giris </a></i>
-
-
-
-
                                 {% endif %}
                             </li>
                             </ul>

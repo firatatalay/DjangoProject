@@ -10,6 +10,7 @@ from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
 
 
+
 class Category(MPTTModel):
     STATUS = (
         ('true','Evet'),
