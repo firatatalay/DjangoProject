@@ -20,7 +20,7 @@ def index(request):
     randomplaces = Place.objects.all().order_by('?')[:4]
     mainrandomplacessmall = Place.objects.all().order_by('?')[:30]
     mainrandomplacesbig = Place.objects.all().order_by('?')[:10]
-
+    footerrandompostimages = Place.objects.all().order_by('?')[:8]
 
     context = {'setting': setting,
                'page': 'home',
@@ -30,13 +30,15 @@ def index(request):
                'randomplaces': randomplaces,
                'mainrandomplacessmall': mainrandomplacessmall,
                'mainrandomplacesbig': mainrandomplacesbig,
+               'footerrandompostimages' : footerrandompostimages,
                }
     return render(request, 'index.html', context)
 
 def hakkimizda(request):
     setting = Setting.objects.first()
     category = Category.objects.all()
-    context = {'setting': setting, 'page':'hakkimizda','category': category}
+    footerrandompostimages = Place.objects.all().order_by('?')[:8]
+    context = {'setting': setting, 'page':'hakkimizda', 'category': category, 'footerrandompostimages':footerrandompostimages}
 
     return render(request, 'hakkimizda.html', context)
 
@@ -55,25 +57,32 @@ def iletisim(request):
             messages.success(request, "Teşekkürler, mesajınız alındı. En kısa sürece geribildirim alacaksınız.")
             return HttpResponseRedirect('/iletisim')
 
+    footerrandompostimages = Place.objects.all().order_by('?')[:8]
     setting = Setting.objects.first()
     form = ContactFormu()
     category = Category.objects.all()
-    context = {'setting': setting, 'form':form, 'category': category}
+    context = {'setting': setting, 'form':form, 'category': category, 'footerrandompostimages': footerrandompostimages}
     return render(request, 'iletisim.html', context)
 
 
 def category_places(request, id, slug):
+    footerrandompostimages = Place.objects.all().order_by('?')[:8]
+    setting = Setting.objects.first()
     category = Category.objects.all()
     categorydata = Category.objects.get(pk=id)
     places = Place.objects.filter(category_id=id)
     context = {'places': places,
                'category': category,
-               'categorydata': categorydata
+               'categorydata': categorydata,
+               'footerrandompostimages': footerrandompostimages,
+               'setting': setting
                }
     return render(request, 'places.html', context)
 
 
 def place_detail(request, id, slug):
+    footerrandompostimages = Place.objects.all().order_by('?')[:8]
+    setting = Setting.objects.first()
     category = Category.objects.all()
     place = Place.objects.get(pk=id)
     randomplaces = Place.objects.all().order_by('?')[:3]
@@ -84,6 +93,8 @@ def place_detail(request, id, slug):
                'randomplaces': randomplaces,
                'images': images,
                'comments': comments,
+               'footerrandompostimages': footerrandompostimages,
+               'setting': setting
                }
     return render(request, 'placedetail.html', context)
 
@@ -91,14 +102,20 @@ def place_detail(request, id, slug):
 
 
 def place_search(request):
+
+
     if request.method == 'POST':
         form = SearchForm(request.POST)
         if form.is_valid():
+            footerrandompostimages = Place.objects.all().order_by('?')[:8]
+            setting = Setting.objects.first()
             category = Category.objects.all()
             query = form.cleaned_data['query']
             places = Place.objects.filter(title__icontains=query)
             context = { 'places': places,
                         'category': category,
+                        'setting': setting,
+                        'footerrandompostimages': footerrandompostimages
                         }
             return render(request,'places_search.html',context)
 
@@ -136,10 +153,12 @@ def login_view(request):
             messages.warning(request, "Giriş Yapılamadı, bilgilerinizi kontrol ettikten sonra tekrar deneyin.")
             return HttpResponseRedirect('/login')
 
+    footerrandompostimages = Place.objects.all().order_by('?')[:8]
     setting = Setting.objects.first()
     category = Category.objects.all()
     context = {'category': category,
                'setting': setting,
+               'footerrandompostimages': footerrandompostimages,
                }
     return render(request, 'login.html', context)
 
@@ -161,10 +180,12 @@ def register_view(request):
             return HttpResponseRedirect('/')
 
     form = RegisterForm()
+    footerrandompostimages = Place.objects.all().order_by('?')[:8]
     setting = Setting.objects.first()
     category = Category.objects.all()
     context = {'category': category,
                 'setting': setting,
                'form': form,
+               'footerrandompostimages': footerrandompostimages
                }
     return render(request, 'register.html', context)

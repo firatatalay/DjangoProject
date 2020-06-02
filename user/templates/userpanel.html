@@ -1,6 +1,7 @@
 <div class="single_bottom_rightbar wow fadeInDown">
-            <h2>{{ profile.user.first_name }} {{ profile.user.last_name }} Profil</h2>
+            <h2><img src="{{ profile.image.url }} " style="width:50px;border-radius: 300px">{{ profile.user.first_name }} {{ profile.user.last_name }} </h2>
             <ul class="top_nav">
+              <li><i class="fa fa-user"><a href="/user"> Profil Anasayfa </a></i></li><br>
               <li><i class="fa fa-location-arrow"><a href="/"> Ekledigim Yerler </a></i></li><br>
               <li><i class="fa fa-comments"><a href="/"> Yorumlarım </a></i></li><br>
               <li><i class="fa fa-info-circle"><a href="/user/update"> Bilgileri Guncelle </a></i></li><br>
