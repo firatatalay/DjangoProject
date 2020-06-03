@@ -1,0 +1,85 @@
+{% extends "homebase.html" %}
+
+{% block title %} {{ profile.user.first_name }} PROFIL {% endblock %}
+{% block keywords %} {{ setting.keywords }} {% endblock %}
+{% block description %} {{ setting.descriptions }} {% endblock %}
+
+{% block head %} <link rel="shortcut icon" type="image/x-con" href="{{ setting.icon.url }}"/> {% endblock %}
+
+{% block navbar %} {% include 'navbar.html' %}{% endblock %}
+{% block content %}
+<div class="container">
+      <section id="mainContent">
+    <div class="content_top">
+
+    </div>
+
+    <div class="content_bottom">
+      <div class="col-lg-8 col-md-8">
+        <div class="content_bottom_left">
+<br>
+            <center>
+            {% for rs in comments %}
+                <table id="dtBasicExample" class="table table-striped table-bordered table-sm" >
+                    <thead>
+                    <tr>
+                        <th class="th-sm"><i class="fa fa-edit"></i> <a href="/place/{{ rs.place.id }}/{{ rs.place.slug }}">{{ rs.place.title }}</a> / {{ rs.status }}</th>
+                        <th class="th-sm">
+                            <i class="fa fa-star{% if rs.rate < 1 %}-o empty{% endif %}"></i>
+                            <i class="fa fa-star{% if rs.rate < 2 %}-o empty{% endif %}"></i>
+                            <i class="fa fa-star{% if rs.rate < 3 %}-o empty{% endif %}"></i>
+                            <i class="fa fa-star{% if rs.rate < 4 %}-o empty{% endif %}"></i>
+                            <i class="fa fa-star{% if rs.rate < 5 %}-o empty{% endif %}"></i>
+                        </th>
+                        <th class="th-sm">
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <i class="fa fa-clock-o"></i> {{ rs.create_at }}
+                                </div>
+                                <div class="col-md-1">
+                                    <a class="btn btn-default" href="/user/deletecomment/{{ rs.id }}" onclick="return confirm('Yorumunuzu Silmek İstediğinizden Emin Misiniz?')"> Sil </a>
+                                </div>
+                            </div>
+                        </th>
+
+
+                    </tr>
+                    </thead>
+
+                    <tbody>
+
+                    <tr>
+                        <td colspan="3" ><i class="fa fa-arrow-right"></i> {{ rs.subject }}</td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="3"><i class="fa fa-comment"></i> {{ rs.comment }}</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            {% endfor %}
+            </center>
+
+
+
+
+
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4">
+        <div class="content_bottom_right">
+          <div class="single_bottom_rightbar">
+          </div>
+          <div class="single_bottom_rightbar">
+          </div>
+
+          {% include 'userpanel.html' %}
+
+        </div>
+      </div>
+    </div>
+  </section>
+    </div>
+
+{% endblock %}
