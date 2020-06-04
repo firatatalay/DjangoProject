@@ -13,7 +13,7 @@ urlpatterns = [
     path('addcontent/', views.addcontent, name='addcontent'),
     path('editcontent/<int:id>/', views.editcontent, name='editcontent'),
     path('deletecontent/<int:id>/', views.deletecontent, name='deletecontent'),
-    # path('addimagecontent/<int:id>/', views.addimagecontent, name='addimagecontent'),
+    path('addimagecontent/<int:id>/', views.addimagecontent, name='addimagecontent'),
     # path('addcomment/<int:id>', views.addcomment, name='addcomment'),
 
     # ex: /polls/5/

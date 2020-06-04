@@ -20,8 +20,8 @@ def index(request):
     category = Category.objects.all()
     lastplaces = Place.objects.all().order_by('-id')[:5]
     randomplaces = Place.objects.all().order_by('?')[:4]
-    mainrandomplacessmall = Place.objects.all().order_by('?')[:30]
-    mainrandomplacesbig = Place.objects.all().order_by('?')[:10]
+    mainrandomplacessmall = Place.objects.all().order_by('?')[:12]
+    mainrandomplacesbig = Place.objects.all().order_by('?')[:5]
     footerrandompostimages = Place.objects.all().order_by('?')[:8]
     announcements = Content.objects.filter(type='duyuru', status='True').order_by('-id')[:4]
     comments = Comment.objects.filter(status='True').order_by('-create_at')[:4]
@@ -94,12 +94,14 @@ def category_places(request, id, slug):
     category = Category.objects.all()
     categorydata = Category.objects.get(pk=id)
     places = Place.objects.filter(category_id=id)
+    lastplaces = Place.objects.all().order_by('-id')[:5]
     context = {'places': places,
                'category': category,
                'categorydata': categorydata,
                'footerrandompostimages': footerrandompostimages,
                'setting': setting,
-               'menu': menu
+               'menu': menu,
+               'lastplaces': lastplaces
                }
     return render(request, 'places.html', context)
 
