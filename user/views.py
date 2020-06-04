@@ -9,6 +9,7 @@ from django.shortcuts import render, redirect
 from place.models import Category, Comment, Place
 from home.models import UserProfile, Setting
 from user.forms import ProfileUpdateForm, UserUpdateForm
+from content.models import Content, Menu, CImages
 
 
 def index(request):
@@ -17,11 +18,12 @@ def index(request):
     profile = UserProfile.objects.get(user_id=current_user.id)
     setting = Setting.objects.first()
     footerrandompostimages = Place.objects.all().order_by('?')[:8]
-
+    menu = Menu.objects.all()
     context = {'category': category,
                'profile': profile,
                'setting': setting,
-               'footerrandompostimages': footerrandompostimages
+               'footerrandompostimages': footerrandompostimages,
+               'menu': menu
                }
     return render(request, 'userprofile.html',context)
 
@@ -36,6 +38,7 @@ def user_update(request):
             messages.success(request, 'Profiliniz başarıyla güncellendi!')
             return HttpResponseRedirect('/user/update')
     else:
+        menu = Menu.objects.all()
         category = Category.objects.all()
         footerrandompostimages = Place.objects.all().order_by('?')[:8]
         user_form = UserUpdateForm(instance=request.user)
@@ -46,7 +49,8 @@ def user_update(request):
             'user_form': user_form,
             'profile_form': profile_form,
             'setting': setting,
-            'footerrandompostimages': footerrandompostimages
+            'footerrandompostimages': footerrandompostimages,
+            'menu': menu
         }
         return render(request, 'user_update.html', context)
 
@@ -63,6 +67,7 @@ def change_password(request):
             return HttpResponseRedirect('/user/password')
 
     else:
+        menu = Menu.objects.all()
         category = Category.objects.all()
         footerrandompostimages = Place.objects.all().order_by('?')[:8]
         form = PasswordChangeForm(request.user)
@@ -71,11 +76,13 @@ def change_password(request):
             'form': form,
             'category': category,
             'setting': setting,
-            'footerrandompostimages': footerrandompostimages
+            'footerrandompostimages': footerrandompostimages,
+            'menu': menu
         })
 
 @login_required(login_url='/login') #login kontrolü
 def comments(request):
+    menu = Menu.objects.all()
     current_user = request.user
     comments = Comment.objects.filter(user_id=current_user.id, status='True')
     category = Category.objects.all()
@@ -85,7 +92,8 @@ def comments(request):
         'category': category,
         'comments': comments,
         'footerrandompostimages': footerrandompostimages,
-        'setting': setting
+        'setting': setting,
+        'menu': menu
     }
     return render(request, 'comments.html', context)
 

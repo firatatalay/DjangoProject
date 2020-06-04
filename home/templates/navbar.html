@@ -34,6 +34,19 @@
 
                     <li><a href="/hakkimizda">Hakkımızda</a></li>
                     <li><a href="/iletisim">ILETISIM</a></li>
+                    {% recursetree menu %}
+                        <li {% if not node.is_leaf_node %} class="dropdown" {% endif %}>
+                            <a href="/menu/{{ node.id }}" class="" {% if not node.is_leaf_node %} data-toggle="dropdown" {% endif %} role="button" aria-expanded="false">{{ node.title }}</a>
+
+                            {% if not node.is_leaf_node %}
+                                <ul class="dropdown-menu" role="menu" class="children">
+                                    <li>{{ children }}</li>
+                                </ul>
+                            {% endif %}
+                        </li>
+                    {% endrecursetree %}
+
+
                 </ul>
             </div>
 

@@ -36,6 +36,10 @@ urlpatterns = [
     path('login/', views.login_view, name='login_view'),
     path('register/', views.register_view, name='register_view'),
     path('user/', include('user.urls')),
+    path('content/', include('content.urls')),
+    path('menu/<int:id>', views.menu, name='menu'),
+    path('content/<int:id>/<slug:slug>/', views.contentdetail, name='contentdetail'),
+    path('error/', views.error, name='error'),
 
 ]
 

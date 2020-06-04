@@ -1,0 +1,27 @@
+{% extends "homebase.html" %}
+
+{% block title %} HATA! {{ setting.company }} {% endblock %}
+{% block keywords %} {{ setting.keywords }} {% endblock %}
+{% block description %} {{ setting.descriptions }} {% endblock %}
+
+{% block head %} <link rel="shortcut icon" type="image/x-con" href="{{ setting.icon.url }}"/> {% endblock %}
+
+{% block navbar %} {% include 'navbar.html' %}{% endblock %}
+{% block content %}
+
+    <section id="ContactContent">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <div class="contact_area">
+              <br>
+              <br>
+              <center>
+                  <p><a class="logo" href="/">ARANILAN İÇERİK BULUNAMADI!</a></p>
+              </center>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+{% endblock %}

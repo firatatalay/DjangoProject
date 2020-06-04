@@ -10,9 +10,11 @@ from django.shortcuts import render
 from home.models import Setting, ContactFormMessage, ContactFormu, UserProfile
 from place.models import Place, Category, Images, Comment
 from home.forms import SearchForm, RegisterForm
+from content.models import Content, Menu, CImages
 
 
 def index(request):
+    menu = Menu.objects.all()
     setting = Setting.objects.first()
     sliderdata = Place.objects.all()[:5]
     category = Category.objects.all()
@@ -21,6 +23,10 @@ def index(request):
     mainrandomplacessmall = Place.objects.all().order_by('?')[:30]
     mainrandomplacesbig = Place.objects.all().order_by('?')[:10]
     footerrandompostimages = Place.objects.all().order_by('?')[:8]
+    announcements = Content.objects.filter(type='duyuru', status='True').order_by('-id')[:4]
+    comments = Comment.objects.filter(status='True').order_by('-create_at')[:4]
+
+
 
     context = {'setting': setting,
                'page': 'home',
@@ -31,14 +37,23 @@ def index(request):
                'mainrandomplacessmall': mainrandomplacessmall,
                'mainrandomplacesbig': mainrandomplacesbig,
                'footerrandompostimages' : footerrandompostimages,
+               'menu': menu,
+               'announcements': announcements,
+               'comments': comments
                }
     return render(request, 'index.html', context)
 
 def hakkimizda(request):
+    menu = Menu.objects.all()
     setting = Setting.objects.first()
     category = Category.objects.all()
     footerrandompostimages = Place.objects.all().order_by('?')[:8]
-    context = {'setting': setting, 'page':'hakkimizda', 'category': category, 'footerrandompostimages':footerrandompostimages}
+    context = {'setting': setting,
+               'page':'hakkimizda',
+               'category': category,
+               'footerrandompostimages':footerrandompostimages,
+               'menu': menu
+               }
 
     return render(request, 'hakkimizda.html', context)
 
@@ -57,15 +72,22 @@ def iletisim(request):
             messages.success(request, "Teşekkürler, mesajınız alındı. En kısa sürece geribildirim alacaksınız.")
             return HttpResponseRedirect('/iletisim')
 
+    menu = Menu.objects.all()
     footerrandompostimages = Place.objects.all().order_by('?')[:8]
     setting = Setting.objects.first()
     form = ContactFormu()
     category = Category.objects.all()
-    context = {'setting': setting, 'form':form, 'category': category, 'footerrandompostimages': footerrandompostimages}
+    context = {'setting': setting,
+               'form':form,
+               'category': category,
+               'footerrandompostimages': footerrandompostimages,
+               'menu': menu
+               }
     return render(request, 'iletisim.html', context)
 
 
 def category_places(request, id, slug):
+    menu = Menu.objects.all()
     footerrandompostimages = Place.objects.all().order_by('?')[:8]
     setting = Setting.objects.first()
     category = Category.objects.all()
@@ -75,12 +97,14 @@ def category_places(request, id, slug):
                'category': category,
                'categorydata': categorydata,
                'footerrandompostimages': footerrandompostimages,
-               'setting': setting
+               'setting': setting,
+               'menu': menu
                }
     return render(request, 'places.html', context)
 
 
 def place_detail(request, id, slug):
+    menu = Menu.objects.all()
     footerrandompostimages = Place.objects.all().order_by('?')[:8]
     setting = Setting.objects.first()
     category = Category.objects.all()
@@ -94,7 +118,8 @@ def place_detail(request, id, slug):
                'images': images,
                'comments': comments,
                'footerrandompostimages': footerrandompostimages,
-               'setting': setting
+               'setting': setting,
+               'menu': menu
                }
     return render(request, 'placedetail.html', context)
 
@@ -107,6 +132,7 @@ def place_search(request):
     if request.method == 'POST':
         form = SearchForm(request.POST)
         if form.is_valid():
+            menu = Menu.objects.all()
             footerrandompostimages = Place.objects.all().order_by('?')[:8]
             setting = Setting.objects.first()
             category = Category.objects.all()
@@ -115,7 +141,8 @@ def place_search(request):
             context = { 'places': places,
                         'category': category,
                         'setting': setting,
-                        'footerrandompostimages': footerrandompostimages
+                        'footerrandompostimages': footerrandompostimages,
+                        'menu': menu
                         }
             return render(request,'places_search.html',context)
 
@@ -153,12 +180,14 @@ def login_view(request):
             messages.warning(request, "Giriş Yapılamadı, bilgilerinizi kontrol ettikten sonra tekrar deneyin.")
             return HttpResponseRedirect('/login')
 
+    menu = Menu.objects.all()
     footerrandompostimages = Place.objects.all().order_by('?')[:8]
     setting = Setting.objects.first()
     category = Category.objects.all()
     context = {'category': category,
                'setting': setting,
                'footerrandompostimages': footerrandompostimages,
+               'menu': menu
                }
     return render(request, 'login.html', context)
 
@@ -180,12 +209,53 @@ def register_view(request):
             return HttpResponseRedirect('/')
 
     form = RegisterForm()
+    menu = Menu.objects.all()
     footerrandompostimages = Place.objects.all().order_by('?')[:8]
     setting = Setting.objects.first()
     category = Category.objects.all()
     context = {'category': category,
                 'setting': setting,
                'form': form,
-               'footerrandompostimages': footerrandompostimages
+               'footerrandompostimages': footerrandompostimages,
+               'menu': menu
                }
     return render(request, 'register.html', context)
+
+
+def menu(request, id):
+    try:
+        content = Content.objects.get(menu_id=id)
+        link = '/content/' + str(content.id) + '/menu'
+        return HttpResponseRedirect(link)
+    except:
+        messages.warning(request, "HATA! <br>İlgili içerik bulunamadı.")
+        link = '/error'
+        return HttpResponseRedirect(link)
+
+def contentdetail(request, id, slug):
+    category = Category.objects.all()
+    menu = Menu.objects.all()
+    try:
+        content = Content.objects.get(pk=id)
+        images = CImages.objects.filter(content_id=id)
+        # comment= Comment.objects.filter(product_id,status='True')
+        context = {'content': content,
+                   'category': category,
+                   'menu': menu,
+                   'images': images,
+                   }
+        return render(request, 'content_detail.html', context)
+    except:
+        messages.warning(request, "HATA! ilgili içerik bulunamadı ")
+        link = '/error'
+        return HttpResponseRedirect(link)
+
+
+def error(request):
+    category = Category.objects.all()
+    menu = Menu.objects.all()
+    context = {
+        'category': category,
+        'menu': menu,
+    }
+    return render(request, 'error.html', context)

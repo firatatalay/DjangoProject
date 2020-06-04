@@ -15,22 +15,36 @@
                 <div class="content_bottom_left">
                     <div class="single_page_area">
                         <ol class="breadcrumb">
-                            <li><a href="/">Home</a></li>
-                            <li><a href="/category/{{ place.category_id }}/{{ place.category.slug }}">{{ place.category }}</a></li>
-                            <li class="active">{{ place.title }}</li>
+                            <li><a href="/">Anasayfa</a></li>
+                            <li class="active">{{ content.title }}</li>
                         </ol>
-                        <h2 class="post_titile">{{ place.title }}</h2>
+                        <h2 class="post_titile">{{ content.title }}</h2>
                         <div class="single_page_content">
-                            <div class="post_commentbox"> <a href="#"><i class="fa fa-user"></i>YAZAR</a> <span><i class="fa fa-calendar"></i>{{ place.create_at }}</span> <a href="#"><i class="fa fa-tags"></i>{{ place.category }}</a> </div>
-                            <img class="img-center" src="{{ place.image.url }}" alt="">
+                            <div class="post_commentbox"> <a href="#"><i class="fa fa-user"></i>ADMIN</a> <span><i class="fa fa-calendar"></i>{{ content.create_at }}</span></div>
+{#                            <img class="img-center" src="{{ content.image.url }}" alt="">#}
+                            <div class="latest_slider">
+                                <div class="slick_slider">
+                                    <div class="single_iteam"><img src="{{ content.image.url }}" alt="" style=" height: 425px" >
+                                    </div>
+                                    {% for rs in images %}
+                                        <div class="single_iteam"><img src="{{ rs.image.url }}" alt="" style=" height: 425px" >
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            <br><br><br><br>
+                            </div>
 
-                            {{ place.detail|safe }}
+                            {{ content.detail|safe }}
                             <br>
                             <br>
-                            <h4><strong>İlgili Görseller:</strong></h4>
-                            {% for rs in images %}
-                                <img style="width:350px;height:250px" src="{{ rs.image.url }}" alt="">
-                            {% endfor %}
+{#                            <h4><strong>İlgili Görseller:</strong></h4>#}
+{#                            {% for rs in images %}#}
+{#                                <img style="width:350px;height:250px" src="{{ rs.image.url }}" alt="">#}
+{#                            {% endfor %}#}
+
+
+
+
 
                             <br>
                             <br>
@@ -67,7 +81,7 @@
                                                 <td colspan="3" ><i class="fa fa-arrow-right"></i> {{ rs.subject }}</td>
                                             </tr>
                                             <tr>
-                                                <td colspan="3"><i class="fa fa-comment"></i> {{ rs.comment }} </td>
+                                                <td colspan="3"><i class="fa fa-comment"></i> {{ rs.comment }}</td>
                                             </tr>
                                             </tbody>
                                         </table>
