@@ -53,11 +53,12 @@ class Place(models.Model):
         ('true', 'Evet'),
         ('false', 'Hayır'),
     )
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     title = models.CharField(blank=True, max_length=150)
     keywords = models.CharField(blank=True, max_length=255)
     description = models.CharField(blank=True, max_length=255)
-    image = models.ImageField(blank=True, upload_to='images/')
+    image = models.ImageField(blank=False, upload_to='images/')
     slug = models.SlugField(null=False, unique=True)
     detail = RichTextUploadingField(blank=True,)
     status = models.CharField(max_length=10,choices=STATUS)
@@ -75,6 +76,11 @@ class Place(models.Model):
     def get_absolute_url(self):
         return reverse('place_detail', kwargs={'slug': self.slug})
 
+class PlaceForm(ModelForm):
+    class Meta:
+        model = Place
+        fields = ['category', 'title', 'keywords',
+                  'description', 'image', 'slug', 'detail']
 
 class Images(models.Model):
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
@@ -87,6 +93,11 @@ class Images(models.Model):
         return mark_safe('<img src="{}" height="50"/>'.format(self.image.url))
     image_tag.short_description = 'Image'
 
+class ImagesForm(ModelForm):
+    class Meta:
+        model = Place
+        fields = ['title','image']
+        extra = 3
 
 class Comment(models.Model):
     STATUS = (

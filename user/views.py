@@ -6,7 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render, redirect
 
 # Create your views here.
-from place.models import Category, Comment, Place
+from place.models import Category, Comment, Place, PlaceForm, Images, ImagesForm
 from home.models import UserProfile, Setting
 from user.forms import ProfileUpdateForm, UserUpdateForm
 from content.models import Content, Menu, CImages, ContentForm, CImageForm
@@ -206,6 +206,118 @@ def addimagecontent(request,id):
         form = CImageForm()
         context = {
             'content': content,
+            'images': images,
+            'form': form,
+        }
+        return render(request, 'contentgallery.html', context)
+
+
+@login_required(login_url='/login')
+def places(request):
+    category = Category.objects.all()
+    menu = Menu.objects.all()
+    current_user = request.user
+    places = Place.objects.filter(user_id=current_user.id).order_by('-create_at')
+    print(places)
+    context = {
+        'category': category,
+        'menu': menu,
+        'places': places
+    }
+    return render(request, 'user_places.html', context)
+
+
+@login_required(login_url='/login')
+def addplace(request):
+    if request.method == 'POST':
+        form = PlaceForm(request.POST, request.FILES)
+        if form.is_valid():
+            current_user = request.user
+            data = Place()
+            data.user_id = current_user.id
+            data.title = form.cleaned_data['title']
+            data.keywords = form.cleaned_data['keywords']
+            data.description = form.cleaned_data['description']
+            data.image = form.cleaned_data['image']
+            data.category = form.cleaned_data['category']
+            data.slug = form.cleaned_data['slug']
+            data.detail = form.cleaned_data['detail']
+            data.status = 'False'
+            data.save()
+            messages.success(request, 'Gönderiniz başarıyla kaydoldu.')
+            return HttpResponseRedirect('/user/places')
+        else:
+            messages.warning(request, 'Content Form Error' + str(form.errors))
+            return HttpResponseRedirect('/user/addplace')
+
+    else:
+        category = Category.objects.all()
+        menu = Menu.objects.all()
+        form = PlaceForm()
+        context = {
+            'menu': menu,
+            'category': category,
+            'form': form,
+        }
+        return render(request, 'user_addplaces.html', context)
+
+
+@login_required(login_url='/login')
+def deleteplace(request, id):
+    current_user = request.user
+    Place.objects.filter(id=id, user_id=current_user.id).delete()
+    messages.warning(request, ' Gönderi silindi.!')
+    return HttpResponseRedirect('/user/places')
+
+
+@login_required(login_url='/login')
+def editplace(request, id):
+    place = Place.objects.get(id=id)
+    if request.method == 'POST':
+        form = PlaceForm(request.POST, request.FILES, instance=place)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Güncelleme Başarıyla gerçekleştirildi')
+            return HttpResponseRedirect('/user/places')
+        else:
+            messages.success(request, 'Place Form Error:' + str(form.errors))
+            return HttpResponseRedirect('/user/editplace' + str(id))
+    else:
+
+        category = Category.objects.all()
+        menu = Menu.objects.all()
+        form = PlaceForm(instance=place)
+
+        news = {
+            'menu': menu,
+            'category': category,
+            'form': form,
+            'place_id': place.id
+        }
+        return render(request, 'user_addplaces.html', news)
+
+def addimageplace(request, id):
+    if request.method == 'POST':
+        lasturl = request.META.get('HTTP_REFERER')
+        form = ImagesForm(request.POST, request.FILES)
+        if form.is_valid():
+            data = Images()
+            data.title = form.cleaned_data['title']
+            data.place_id = id
+            data.image = form.cleaned_data['image']
+            data.save()
+            messages.success(request, 'Resim/ler başarıyla eklendi.')
+            return HttpResponseRedirect(lasturl)
+        else:
+            messages.warning(request, 'Form Error:' + str(form.errors))
+            return HttpResponseRedirect(lasturl)
+
+    else:
+        place = Place.objects.get(id=id)
+        images = Images.objects.filter(place_id=id)
+        form = ImagesForm()
+        context = {
+            'content': place,
             'images': images,
             'form': form,
         }

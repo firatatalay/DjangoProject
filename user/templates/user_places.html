@@ -1,0 +1,109 @@
+{% extends "homebase.html" %}
+
+{% block title %} {{ categorydata.title }} {% endblock %}
+{% block keywords %} {{ categorydata.keywords }} {% endblock %}
+{% block description %} {{ categorydata.descriptions }} {% endblock %}
+
+{% block head %} <link rel="shortcut icon" type="image/x-con" href="{{ setting.icon.url }}"/> {% endblock %}
+
+{% block navbar %} {% include 'navbar.html' %}{% endblock %}
+{% block content %}
+
+    <section id="ContactContent">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="contact_area">
+
+                    <div class="content_bottom">
+                        <br>
+                        <div class="col-lg-8 col-md-8">
+                            <div class="content_bottom_left">
+                                <div class="single_category wow fadeInDown">
+                                    <div class="col-md-1">
+                                        <a class="btn btn-warning" href="/user/addplace/{{ rs.id }}"> İçerik Ekle </a>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-9">
+                                            {#                                            <i class="fa fa-clock-o"></i> {{ rs.create_at }}#}
+                                        </div>
+
+                                    </div>
+                                    {% if messages %}
+                                        {% for message in messages %}
+                                            <div class="alert alert-{{ message.tags }}" role="alert">
+                                                {{ message }}
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                    {% for rs in places %}
+
+                                        <div class="business_category_left wow fadeInDown">
+                                            <ul class="fashion_catgnav">
+                                                <li>
+
+
+
+                                                    <div class="catgimg2_container"> <a href="/place/{{ rs.id }}/{{ rs.slug }}"><img alt="" style=" width: 335px;height:335px" src="{{ rs.image.url }}"></a> </div>
+
+                                                    <h2 class="catg_titile"><a href="/place/{{ rs.id }}/{{ rs.slug }}">{{rs.title | slice:20}} </a></h2><br>
+                                                    <div class="comments_box">
+                                                        <span class="meta_date">{{rs.create_at}}</span>
+                                                        <i class="fa fa-image"><a href="javascript:;" onclick="window.open('/user/addimageplace/{{ rs.id }}','gallery','height=600,width=650,top=50,left=150')"> <small>Galeri</small> </a></i><br>
+                                                        <span class="meta_more"><a  href="/place/{{ rs.id }}/{{ rs.slug }}">Devamını Oku</a></span>
+                                                    </div>
+                                                    <a onclick="return confirm('Gönderiyi silmek istediğinizden emin misiniz?')" class="btn btn-danger" style="float: left" href="/user/deleteplace/{{ rs.id }}"> Sil </a>
+                                                    <a class="btn btn-warning" style="float:left; width:80px;" href="/user/editplace/{{ rs.id }}"> Düzenle </a>
+
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                    {% endfor %}
+                                    {#                                    {% for rs in places %}#}
+                                    {##}
+                                    {#                                        <div class="business_category_left wow fadeInDown">#}
+                                    {#                                            <ul class="fashion_catgnav">#}
+                                    {#                                                <li>#}
+                                    {#                                                    <div class="catgimg2_container"> <a href="/place/{{ rs.id }}/{{ rs.slug }}"><img alt="" style=" width: 335px" src="{{ rs.image.url }}"></a> </div>#}
+                                    {#                                                    <h2 class="catg_titile"><a href="/place/{{ rs.id }}/{{ rs.slug }}">{{rs.title | slice:30}} </a></h2>#}
+                                    {#                                                    <div class="comments_box">#}
+                                    {#                                                        <span class="meta_date">{{rs.create_at}}</span>#}
+                                    {#                                                        <i class="fa fa-image"><a href="javascript:;" onclick="window.open('/user/addimageplace/{{ rs.id }}','gallery','height=600,width=650,top=50,left=150')"> <small>Galeri</small> </a></i><br>#}
+                                    {#                                                        <span class="meta_more"><a  href="/place/{{ rs.id }}/{{ rs.slug }}">Devamını Oku</a></span>#}
+                                    {#                                                    </div>#}
+                                    {#                                                    {{ rs.type }}#}
+                                    {#                                                    <p> {{rs.description}} </p>#}
+                                    {#                                                    <a class="btn btn-default" href="/user/editplace/{{ rs.id }}"> Düzenle </a>#}
+                                    {#                                                    <a onclick="return confirm('Gönderiyi silmek istediğinizden emin misiniz?')" class="btn btn-danger" href="/user/deleteplace/{{ rs.id }}"> Sil </a>#}
+                                    {##}
+                                    {#                                                </li>#}
+                                    {#                                            </ul>#}
+                                    {#                                        </div>#}
+                                    {#                                    {% endfor %}#}
+
+
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-md-4">
+                            <div class="content_bottom_right">
+                                <div class="single_bottom_rightbar">
+
+                                    {% include 'userpanel.html' %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    </section>
+
+
+    </div>
+    </div>
+    </div>
+    </section>
+
+{% endblock %}

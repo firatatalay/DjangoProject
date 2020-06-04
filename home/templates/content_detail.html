@@ -1,8 +1,8 @@
 {% extends "homebase.html" %}
 
-{% block title %} {{ place.title }} {% endblock %}
-{% block keywords %} {{ place.keywords }} {% endblock %}
-{% block description %} {{ place.description }} {% endblock %}
+{% block title %} {{ content.title }} {% endblock %}
+{% block keywords %} {{ content.keywords }} {% endblock %}
+{% block description %} {{ content.description }} {% endblock %}
 
 {% block head %} <link rel="shortcut icon" type="image/x-con" href="{{ setting.icon.url }}"/> {% endblock %}
 
@@ -171,23 +171,21 @@
             <div class="col-lg-4 col-md-4">
                 <div class="content_bottom_right">
                     <div class="single_bottom_rightbar">
-                        <h2>Recent Post</h2>
+                        <h2>Son Gönderiler</h2>
                         <ul class="small_catg popular_catg wow fadeInDown">
 
-                            {% for rs in randomplaces  %}
-
+                            {% for rs in lastplaces  %}
 
                                 <li>
-                                    <div class="media wow fadeInDown"> <a href="/place/{{ rs.id }}/{{ rs.slug }}" class="media-left"><img alt="" style=" height: 150px; width: 300px" src="{{rs.image.url}}"> </a>
-                                        <br>
-                                        <h4 class="media-heading"><a href="/place/{{ rs.id }}/{{ rs.slug }}">{{ rs.title }}</a></h4><br>
-                                        <p>{{rs.description}}</p>
-
+                                    <div class="media wow fadeInDown"> <a href="/place/{{ rs.id }}/{{ rs.slug }}" class="media-left"><img style=" width: 180px" alt="" src="{{ rs.image.url }}"> </a>
+                                        <div class="media-body">
+                                            <h4 class="media-heading"><a href="/place/{{ rs.id }}/{{ rs.slug }}">{{ rs.title }}</a></h4>
+                                            <p>{{ rs.description }}</p>
+                                        </div>
                                     </div>
                                 </li>
 
                             {% endfor %}
-
 
                         </ul>
                     </div>

@@ -4,7 +4,7 @@ from django.contrib.auth import logout, authenticate, login
 from django.http import HttpResponse
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 
 # Create your views here.
 from home.models import Setting, ContactFormMessage, ContactFormu, UserProfile, FAQ
@@ -24,7 +24,7 @@ def index(request):
     mainrandomplacesbig = Place.objects.all().order_by('?')[:5]
     footerrandompostimages = Place.objects.all().order_by('?')[:8]
     announcements = Content.objects.filter(type='duyuru', status='True').order_by('-id')[:4]
-    comments = Comment.objects.filter(status='True').order_by('-create_at')[:4]
+    comments = Comment.objects.filter(status='True').order_by('-create_at')[:5]
     events = Content.objects.filter(type='etkinlik', status='True').order_by('-id')[:4]
 
 
@@ -93,7 +93,7 @@ def category_places(request, id, slug):
     setting = Setting.objects.first()
     category = Category.objects.all()
     categorydata = Category.objects.get(pk=id)
-    places = Place.objects.filter(category_id=id)
+    places = Place.objects.filter(category_id=id, status='true')
     lastplaces = Place.objects.all().order_by('-id')[:5]
     context = {'places': places,
                'category': category,
@@ -111,7 +111,7 @@ def place_detail(request, id, slug):
     footerrandompostimages = Place.objects.all().order_by('?')[:8]
     setting = Setting.objects.first()
     category = Category.objects.all()
-    place = Place.objects.get(pk=id)
+    place = get_object_or_404(Place, pk=id, status='true')
     randomplaces = Place.objects.all().order_by('?')[:3]
     images = Images.objects.filter(place_id=id)
     comments = Comment.objects.filter(place_id=id, status='True').order_by('create_at')[:]
@@ -238,6 +238,9 @@ def menu(request, id):
 def contentdetail(request, id, slug):
     category = Category.objects.all()
     menu = Menu.objects.all()
+    lastplaces = Place.objects.all().order_by('-id')[:5]
+    randomplaces = Place.objects.all().order_by('?')[:3]
+    setting = Setting.objects.first()
     try:
         content = Content.objects.get(pk=id)
         images = CImages.objects.filter(content_id=id)
@@ -246,6 +249,9 @@ def contentdetail(request, id, slug):
                    'category': category,
                    'menu': menu,
                    'images': images,
+                   'lastplaces': lastplaces,
+                   'randomplaces': randomplaces,
+                   'setting': setting
                    }
         return render(request, 'content_detail.html', context)
     except:

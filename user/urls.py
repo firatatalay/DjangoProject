@@ -14,6 +14,11 @@ urlpatterns = [
     path('editcontent/<int:id>/', views.editcontent, name='editcontent'),
     path('deletecontent/<int:id>/', views.deletecontent, name='deletecontent'),
     path('addimagecontent/<int:id>/', views.addimagecontent, name='addimagecontent'),
+    path('places/', views.places, name='places'),
+    path('addplace/', views.addplace, name='addplace'),
+    path('editplace/<int:id>/', views.editplace, name='editplace'),
+    path('deleteplace/<int:id>/', views.deleteplace, name='deleteplace'),
+    path('addimageplace/<int:id>/',views.addimageplace, name='addimageplace'),
     # path('addcomment/<int:id>', views.addcomment, name='addcomment'),
 
     # ex: /polls/5/
