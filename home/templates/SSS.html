@@ -1,0 +1,36 @@
+{% extends "homebase.html" %}
+
+{% block title %} Sıkça Sorulan Sorular {% endblock %}
+{% block keywords %} {{ setting.keywords }} {% endblock %}
+{% block description %} {{ setting.descriptions }} {% endblock %}
+
+{% block head %}
+    <link rel="shortcut icon" type="image/x-con" href="{{ setting.icon.url }}"/>
+
+{% endblock %}
+
+{% block navbar %} {% include 'navbar.html' %}{% endblock %}
+{% block content %}
+
+    <section id="ContactContent">
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+          <div class="contact_area">
+
+              <div id="accordion" >
+                  {% for rs in faq %}
+                      <h3>{{ rs.question }}</h3>
+                      <div>
+                          <p>
+                              &nbsp;&nbsp;&nbsp;&nbsp;{{ rs.answer }}
+                          </p>
+                      </div>
+                  {% endfor %}
+              </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+{% endblock %}

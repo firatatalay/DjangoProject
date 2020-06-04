@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
-from home.models import Setting, ContactFormMessage, ContactFormu, UserProfile
+from home.models import Setting, ContactFormMessage, ContactFormu, UserProfile, FAQ
 from place.models import Place, Category, Images, Comment
 from home.forms import SearchForm, RegisterForm
 from content.models import Content, Menu, CImages
@@ -260,3 +260,14 @@ def error(request):
         'menu': menu,
     }
     return render(request, 'error.html', context)
+
+def faq(request):
+    category = Category.objects.all()
+    menu = Menu.objects.all()
+    faq = FAQ.objects.all().order_by('ordernumber')
+    context = {
+        'category': category,
+        'menu': menu,
+        'faq': faq
+    }
+    return render(request, 'SSS.html', context)
