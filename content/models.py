@@ -1,8 +1,10 @@
+from ckeditor.widgets import CKEditorWidget
 from ckeditor_uploader.fields import RichTextUploadingField
+from django.contrib.auth.models import User
 from django.db import models
 
 # Create your models here.
-from django.forms import ModelForm
+from django.forms import ModelForm, TextInput, Select, FileInput
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from mptt.fields import TreeForeignKey
@@ -31,20 +33,22 @@ class Menu(MPTTModel):
             k = k.parent
         return ' | '.join(full_path[::-1])
 
+TYPE = (
+    ('menu', 'menu'),
+    ('haber', 'haber'),
+    ('duyuru', 'duyuru'),
+    ('etkinlik', 'etkinlik'),
+)
 
 class Content(models.Model):
-    TYPE = (
-        ('menu', 'menu'),
-        ('haber', 'haber'),
-        ('duyuru', 'duyuru'),
-        ('etkinlik', 'etkinlik'),
-    )
+
 
     STATUS = (
         ('True', 'Evet'),
         ('False', 'Hayır'),
     )
 
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     menu = models.OneToOneField(Menu, null=True, blank=True, on_delete=models.CASCADE)
     type = models.CharField(max_length=10, choices=TYPE)
     title = models.CharField(max_length=150)
@@ -86,3 +90,17 @@ class CImageForm(ModelForm):
     class Meta:
         model = CImages
         fields = ['title', 'image']
+        
+class ContentForm(ModelForm):
+    class Meta:
+        model = Content
+        fields = ['type', 'title', 'slug', 'keywords', 'description', 'image', 'detail']
+        widgets = {
+            'title'         :TextInput(attrs={'class': 'input', 'placeholder': 'title'}),
+            'slug'          :TextInput(attrs={'class': 'input', 'placeholder': 'slug'}),
+            'keywords'      :TextInput(attrs={'class': 'input', 'placeholder': 'keywords'}),
+            'description'   :TextInput(attrs={'class': 'input', 'placeholder': 'description'}),
+            'type'          :Select(attrs={'class': 'input', 'placeholder': 'city'}, choices=TYPE),
+            'image'         :FileInput(attrs={'class': 'input', 'placeholder': 'image'}),
+            'detail'        :CKEditorWidget(),
+        }

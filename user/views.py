@@ -9,7 +9,7 @@ from django.shortcuts import render, redirect
 from place.models import Category, Comment, Place
 from home.models import UserProfile, Setting
 from user.forms import ProfileUpdateForm, UserUpdateForm
-from content.models import Content, Menu, CImages
+from content.models import Content, Menu, CImages, ContentForm
 
 
 def index(request):
@@ -103,4 +103,84 @@ def deletecomment(request, id):
     Comment.objects.filter(id=id, user_id=current_user.id).delete()
     messages.warning(request, 'Yorumunuz Silindi.')
     return HttpResponseRedirect('/user/comments')
+
+
+
+@login_required(login_url='/login')
+def contents(request):
+    category = Category.objects.all()
+    menu = Menu.objects.all()
+    current_user = request.user
+    contents = Content.objects.filter(user_id=current_user.id)
+    context = {
+        'category': category,
+        'menu': menu,
+        'contents': contents
+    }
+    return render(request, 'contents.html', context)
+
+@login_required(login_url='/login')
+def addcontent(request):
+    if request.method == 'POST':
+        form = ContentForm(request.POST, request.FILES)
+        if form.is_valid():
+            current_user = request.user
+            data = Content()
+            data.user_id = current_user.id
+            data.title = form.cleaned_data['title']
+            data.keywords = form.cleaned_data['keywords']
+            data.description = form.cleaned_data['description']
+            data.image = form.cleaned_data['image']
+            # data.category = form.cleaned_data['category']
+            data.slug = form.cleaned_data['slug']
+            data.detail = form.cleaned_data['detail']
+            data.status = 'False'
+            data.save()
+            messages.success(request, 'Başarıyla işlem gerçekleşti')
+            return HttpResponseRedirect('/user/contents')
+        else:
+            messages.warning(request, 'Content Form Error' + str(form.errors))
+            return HttpResponseRedirect('/user/addcontent')
+
+    else:
+        category = Category.objects.all()
+        menu = Menu.objects.all()
+        form = ContentForm()
+        context = {
+            'menu': menu,
+            'category': category,
+            'form': form,
+        }
+        return render(request, 'addcontent.html', context)
+
+@login_required(login_url='/login')
+def editcontent(request, id):
+    content = Content.objects.get(id=id)
+    if request.method == 'POST':
+        form = ContentForm(request.POST, request.FILES, instance=content)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Güncelleme Başarıyla gerçekleştirildi')
+            return HttpResponseRedirect('/user/contents')
+        else:
+            messages.success(request, 'News Form Error:' + str(form.errors))
+            return HttpResponseRedirect('/user/editcontent' + str(id))
+    else:
+
+        category = Category.objects.all()
+        menu = Menu.objects.all()
+        form = ContentForm(instance=content)
+        news = {
+            'menu': menu,
+            'category': category,
+            'form': form,
+        }
+        return render(request, 'addcontent.html', news)
+
+@login_required(login_url='/login')
+def deletecontent(request, id):
+    current_user = request.user
+    Content.objects.filter(id=id, user_id=current_user.id).delete()
+    messages.success(request, ' News deleted..')
+    return HttpResponseRedirect('/user/contents')
 

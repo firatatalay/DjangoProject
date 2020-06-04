@@ -25,7 +25,7 @@ def index(request):
     footerrandompostimages = Place.objects.all().order_by('?')[:8]
     announcements = Content.objects.filter(type='duyuru', status='True').order_by('-id')[:4]
     comments = Comment.objects.filter(status='True').order_by('-create_at')[:4]
-
+    events = Content.objects.filter(type='etkinlik', status='True').order_by('-id')[:4]
 
 
     context = {'setting': setting,
@@ -39,7 +39,8 @@ def index(request):
                'footerrandompostimages' : footerrandompostimages,
                'menu': menu,
                'announcements': announcements,
-               'comments': comments
+               'comments': comments,
+               'events': events
                }
     return render(request, 'index.html', context)
 

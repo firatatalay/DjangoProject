@@ -34,7 +34,8 @@
                                 {% if user.id is not None %}
                                     <i class="fa fa-user"><a href="/user">{{ user.first_name }} {{ user.last_name }}</a></i>
                                     <div class="dropdown-content">
-                                        <i class="fa fa-location-arrow"><a href="/"> Ekledigim Yerler </a></i>
+                                        <i class="fa fa-user"><a href="/user"> Profil </a></i>
+                                        <i class="fa fa-location-arrow"><a href="/user/contents"> Ekledigim Yerler </a></i>
                                         <i class="fa fa-comments"><a href="/user/comments"> Yorumlarım </a></i>
                                         <i class="fa fa-info-circle"><a href="/user/update"> Bilgi Guncelle </a></i>
                                         <i class="fa fa-key"><a href="/user/password"> Sifre Degistir </a></i>
