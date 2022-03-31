@@ -3,5 +3,5 @@ django-ckeditor
 django-mptt
 Pillow
 gunicorn==20.1.0
-whitenoise=6.0.0
+whitenoise==6.0.0
 setuptools==61.2.0
