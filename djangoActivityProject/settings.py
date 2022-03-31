@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '3fanwg-%#13z1llj-gqe&n=ye%s)ynvtl^-li36g9ml&kkvdj8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['firat-djangoapp.herokuapp.com/', '127.0.0.1']
 
 
 # Application definition

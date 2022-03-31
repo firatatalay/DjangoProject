@@ -1,0 +1,1 @@
+web: gunicorn djangoActivityProject.wsgi --log-file -
